@@ -51,7 +51,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
     ),
   };
 }
-export  async function createCart(): Promise<ShoppingCart | null> {
+export async function createCart(): Promise<ShoppingCart | null> {
   const session = await getServerSession(authOptions);
 
   let newCart: Cart;

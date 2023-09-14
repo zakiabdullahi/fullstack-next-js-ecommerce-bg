@@ -1,6 +1,6 @@
 "use server";
 
-import createCart, { getCart } from "@/app/lib/db/carts";
+import { createCart, getCart } from "@/app/lib/db/carts";
 import { prisma } from "@/app/lib/db/prisma";
 import { revalidatePath } from "next/cache";
 
