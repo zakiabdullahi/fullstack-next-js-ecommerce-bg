@@ -3,17 +3,27 @@ import NotFound from "@/app/not-found";
 import PriceTag from "@/components/PriceTag";
 import { Metadata } from "next";
 import Image from "next/image";
-import { cache } from "react";
+import { ReactElement, cache } from "react";
 import AddToCartButton from "./AddToCartButton";
 import { incrementProductQuantity } from "./actions";
+import { type } from "os";
 
 interface ProductPageProps {
   params: {
     id: string;
   };
 }
+type Product = {
+  name: string;
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  description: string;
+  imageUrl: string;
+  price: number;
+};
 
-const getProduct = cache(async (id: string) => {
+const getProduct = cache(async (id: string): Promise<JSX.Element | Product> => {
   const product = await prisma.product.findUnique({ where: { id } });
 
   if (!product) return NotFound();
@@ -23,7 +33,10 @@ const getProduct = cache(async (id: string) => {
 export async function generateMetadata({
   params: { id },
 }: ProductPageProps): Promise<Metadata> {
-  const product = await getProduct(id);
+  // @ts-ignore
+
+  const product: Product = await getProduct(id);
+  console.log(product);
 
   return {
     title: product.name + " - Flowmazon",
@@ -37,7 +50,9 @@ export async function generateMetadata({
 export default async function ProductPage({
   params: { id },
 }: ProductPageProps) {
-  const product = await getProduct(id);
+  // @ts-ignore
+
+  const product: Product = await getProduct(id);
   // console.log("now", product);
   return (
     <div className="flex  flex-col  gap-4 lg:flex-row lg:items-center">
