@@ -7,10 +7,12 @@ import { revalidatePath } from "next/cache";
 export async function incrementProductQuantity(productId: string) {
   const cart = (await getCart()) ?? (await createCart());
 
+  // @ts-ignore
   const articleInCart = cart.items.find((item) => item.productId === productId);
 
   if (articleInCart) {
     await prisma.cart.update({
+      // @ts-ignore
       where: { id: cart.id },
       data: {
         items: {
@@ -23,6 +25,7 @@ export async function incrementProductQuantity(productId: string) {
     });
   } else {
     await prisma.cart.update({
+      // @ts-ignore
       where: { id: cart.id },
       data: {
         items: {
